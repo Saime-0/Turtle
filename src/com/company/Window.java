@@ -20,8 +20,10 @@ public class Window extends JFrame {
     }
 
     public void onRepaint(Graphics g) {
+        g.drawOval(turtle_road.get(0)[0]-2, turtle_road.get(0)[1]-2, 4,4);
         for (Integer[] arr: turtle_road) {
             g.drawLine(arr[0],arr[1], arr[2], arr[3]);
+            g.drawOval(arr[0]-1,arr[1]-1, 2, 2);
 
         }
     }

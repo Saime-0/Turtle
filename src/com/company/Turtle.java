@@ -9,10 +9,11 @@ public class Turtle {
     private int turtle_x;
     private int turtle_y;
     private boolean pendown = false;
-    public double angle = 0.0;
+    private double angle = 0.0;
+    private int speed;
 
-    public Turtle(int width, int height) {
-        window = new Window(road, width, height);
+    public Turtle(int speed, int width, int height) {
+        window = new Window(road, speed, width, height);
         turtle_x = 0;
         turtle_y = 0;
     }

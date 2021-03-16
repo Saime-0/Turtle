@@ -11,51 +11,46 @@ public class Main {
     public static int height = 600;
 
     public static void main(String[] args) {
-        Turtle t = new Turtle(width, height);
+        Turtle t = new Turtle(7, width, height);
         // Начало рисования:
         t.penDown();
-        drawSystem(t, 4);
+        drawSystem(t, 60, 10, 6, "f", "f>f-ff-", "->-f--");
 
 
     }
 
-    public static void drawSystem(Turtle turtle, int iteration) {
+    public static void drawSystem(Turtle turtle, int angle, int dist, int iteration, String start, String... rule) {
         // Начинаем черепашить с координат:
-        turtle.setx(200);
-        turtle.sety(200);
-        // Аксиома, она же и алфавит:
-        ArrayList<String> axiom = new ArrayList<>(Arrays.asList("F++F++F++F++F".split("")));
+        turtle.setx(50);
+        turtle.sety(50);
+        // Массив, изначально содержит стартовую аксиому..?, будет заполняться по правилам:
+        ArrayList<String> axiom = new ArrayList<>(Arrays.asList(start.split("")));
         // Временная строка для новго алфавита:
         ArrayList<String> axmTemp = new ArrayList<>();
         // Создание правил:
         HashMap<String, String> rules = new HashMap<>();
-        rules.put("f", "F++F++F+++++F-F++F");
-        // Угол поворота при "-" и "+", и длина отрезков при остальных аксиомах:
-        int angle = 36;
-        int dist = 10;
+        for (String str : rule) {
+            int splitter = str.indexOf(">");
+            rules.put(str.substring(0, splitter), str.substring(splitter + 1));
+        }
         // Сборка "нового" алфавита, после итерирования правилами..Magic
         for (int i = 0; i < iteration; i++) {
-            for (String key: axiom) {
-               if (rules.containsKey(key)) axmTemp.addAll(Arrays.asList(rules.get(key).split("")));
+            for (String key : axiom) {
+                if (rules.containsKey(key)) axmTemp.addAll(Arrays.asList(rules.get(key).split("")));
+                else axmTemp.add(key);
             }
-//            System.out.printf("%d(%d): %s\n", i, iteration, axmTemp.toString());
             axiom = new ArrayList<>(axmTemp);
             axmTemp.clear();
         }
-        System.out.println(axiom.toString());
+
         // Рисование:
-        for (String key: axiom) {
+        for (String key : axiom) {
             if (key.equals("-")) {
                 turtle.right(angle);
-                System.out.println(key + " = -");
-            }
-            else if (key.equals("+")) {
+            } else if (key.equals("+")) {
                 turtle.left(angle);
-                System.out.println(key + " = +");
-            }
-            else {
+            } else {
                 turtle.forward(dist);
-                System.out.println(key + " = forward");
             }
         }
 

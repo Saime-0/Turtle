@@ -2,14 +2,24 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Window extends JFrame {
-    public int width;
-    public int height;
-    public ArrayList<Integer[]> turtle_road = new ArrayList<>();
+    private final int width;
+    private final int height;
 
-    public Window(ArrayList<Integer[]> turtle_road, int width, int height) {
+    private long last_frame_time;
+    private int drawing_speed;
+
+    private ArrayList<Integer[]> turtle_road;
+    private int current_point_x; // TODO: WDF??
+    private int current_point_y;
+    private ArrayList<Integer[]> rendered_turtle_road = new ArrayList<>();
+
+    public Window(ArrayList<Integer[]> turtle_road, int drawing_speed, int width, int height) {
+        this.drawing_speed = drawing_speed;
         this.width = width;
         this.height = height;
         initWindow();
@@ -20,11 +30,8 @@ public class Window extends JFrame {
     }
 
     public void onRepaint(Graphics g) {
-        g.drawOval(turtle_road.get(0)[0]-2, turtle_road.get(0)[1]-2, 4,4);
         for (Integer[] arr: turtle_road) {
             g.drawLine(arr[0],arr[1], arr[2], arr[3]);
-            g.drawOval(arr[0]-1,arr[1]-1, 2, 2);
-
         }
     }
 
@@ -51,5 +58,6 @@ public class Window extends JFrame {
 
         this.add(turtle_field);
         this.setVisible(true);
+        last_frame_time = System.nanoTime();
     }
 }
